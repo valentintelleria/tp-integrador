@@ -104,8 +104,6 @@ Un préstamo devuelto no puede volver a activarse.
 
 | Método | Ruta                         | Descripción                        | Respuestas |
 | ------ | ---------------------------- | ---------------------------------- | ---------- |
-| GET    | `/api/socios`                | Lista los socios                   | 200        |
-| GET    | `/api/socios/{id}`           | Busca un socio por ID              | 200, 404   |
 | POST   | `/api/socios`                | Registra un socio                  | 201, 400   |
 | GET    | `/api/socios/{id}/prestamos` | Consulta los préstamos de un socio | 200, 404   |
 
