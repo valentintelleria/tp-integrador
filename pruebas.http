@@ -1,32 +1,189 @@
-### Archivo de pruebas · reemplazá las rutas por las de tu enunciado
-### En IntelliJ: abrí este archivo y tocá el ▶ verde de cada petición.
 
 @base = http://localhost:8080/api
 
-### Listar
-GET {{base}}/recursos
+### LIBROS
 
-### Crear
-POST {{base}}/recursos
+### Listar libros
+GET {{base}}/libros
+
+### Crear libro
+POST {{base}}/libros
 Content-Type: application/json
 
 {
-  "campo1": "valor",
-  "campo2": "valor",
-  "campo3": "valor"
+  "titulo": "El principito",
+  "autor": "Antoine de Saint-Exupery",
+  "isbn": "9780156012195"
 }
 
-### Buscar por id
-GET {{base}}/recursos/1
+### Buscar libro por ID
+GET {{base}}/libros/1
 
-### Error de validación (400)
-POST {{base}}/recursos
+### Modificar libro
+PUT {{base}}/libros/1
 Content-Type: application/json
 
-{ "campo1": "" }
+{
+  "titulo": "El principito - Edicion nueva",
+  "autor": "Antoine de Saint-Exupery",
+  "isbn": "9780156012195"
+}
 
-### Cambiar estado
-PATCH {{base}}/otro-recurso/1/estado
+### Error de validacion
+POST {{base}}/libros
 Content-Type: application/json
 
-{ "estado": "OTRO_ESTADO" }
+{
+  "titulo": "",
+  "autor": "",
+  "isbn": ""
+}
+
+### Eliminar libro
+DELETE {{base}}/libros/1
+
+
+### SOCIOS
+
+### Crear socio
+POST {{base}}/socios
+Content-Type: application/json
+
+{
+  "nombre": "Juan Perez",
+  "email": "juan@gmail.com"
+}
+
+
+### PRESTAMOS
+
+### Crear prestamo
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 1,
+  "socioId": 1,
+  "fechaDevolucion": "2026-12-15"
+}
+
+### Listar prestamos
+GET {{base}}/prestamos
+
+### Filtrar prestamos devueltos
+GET {{base}}/prestamos?estado=DEVUELTO
+
+### Cambiar estado del prestamo
+PATCH {{base}}/prestamos/1/estado
+Content-Type: application/json
+
+{
+  "estado": "DEVUELTO"
+}
+
+### Prestamos de un socio
+GET {{base}}/socios/1/prestamos
+
+### Libro inexistente
+GET {{base}}/libros/999
+
+### Fecha de devolucion pasada
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 1,
+  "socioId": 1,
+  "fechaDevolucion": "2025-01-01"
+}
+
+### Crear prestamo activo para probar restricciones
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 1,
+  "socioId": 1,
+  "fechaDevolucion": "2026-12-20"
+}
+
+### Intentar prestar un libro que ya esta prestado
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 1,
+  "socioId": 1,
+  "fechaDevolucion": "2026-12-25"
+}
+
+### Libro 2
+POST {{base}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "1984",
+  "autor": "George Orwell",
+  "isbn": "9780451524935"
+}
+
+### Libro 3
+POST {{base}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Fahrenheit 451",
+  "autor": "Ray Bradbury",
+  "isbn": "9781451673319"
+}
+
+### Libro 4
+POST {{base}}/libros
+Content-Type: application/json
+
+{
+  "titulo": "Dracula",
+  "autor": "Bram Stoker",
+  "isbn": "9780141439846"
+}
+
+### Segundo prestamo activo
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 2,
+  "socioId": 1,
+  "fechaDevolucion": "2026-12-20"
+}
+
+### Tercer prestamo activo
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 3,
+  "socioId": 1,
+  "fechaDevolucion": "2026-12-20"
+}
+
+### Cuarto prestamo - debe rechazarse
+POST {{base}}/prestamos
+Content-Type: application/json
+
+{
+  "libroId": 4,
+  "socioId": 1,
+  "fechaDevolucion": "2026-12-20"
+}
+
+### Intentar reactivar un prestamo devuelto
+PATCH {{base}}/prestamos/1/estado
+Content-Type: application/json
+
+{
+  "estado": "ACTIVO"
+}
+
+### Intentar eliminar libro con prestamo activo
+DELETE {{base}}/libros/1
